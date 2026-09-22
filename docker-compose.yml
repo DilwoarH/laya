@@ -1,0 +1,10 @@
+services:
+  laya:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - hf-cache:/app/.cache/huggingface
+
+volumes:
+  hf-cache:
