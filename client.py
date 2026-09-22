@@ -6,6 +6,17 @@ states = [
     "Our invoice shows a duplicate charge for last month's messages.",
     "Messages are stuck in pending and are not being delivered.",
     "Please configure a new service to send password-reset notifications.",
+    "Can someone demo the product for us?",
+    "Where is the documentation for getting set up?",
+    "I need help setting up a new Notify service for our team to send email alerts.",
+    "We are getting an error saying the API key is invalid when sending a test message.",
+    "Our SMS credits were used up unexpectedly and we need to understand the charge.",
+    "Can you add a second team member to manage our service and update permissions?",
+    "The delivery reports for our letters are missing for the last 24 hours.",
+    "Is there a way to send template-based messages to a large customer list?",
+    "One of our messages is marked as failed after being sent, can you investigate?",
+    "We would like a walkthrough of the product and pricing for a government service.",
+    "How do I create a new service and link it to our organisation?"
 ]
 
 questions = {
@@ -16,7 +27,7 @@ questions = {
             "question": "A question that the customer is asking", 
             "incident": "An incident that has occurred",
             "problem": "A problem that the user is facing",
-            "task": "A specific task that the team needs to do, like configuring a system",
+            "task": "A specific action that only the team can do, like configuring a system",
         },
     },
     "notify_responder": {
