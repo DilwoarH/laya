@@ -72,7 +72,7 @@ for state in states:
         (
             questions[question]["instructions"],
             answer["choice"],
-            f"{answer.get('confidence', 0) * 100:.1f}%",
+            f"{answer.get('probabilities', {}).get(answer['choice'], 0) * 100:.1f}%",
         )
         for question, answer in answers.items()
     ]
