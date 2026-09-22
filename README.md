@@ -10,7 +10,7 @@ Build and start the server:
 docker compose up --build
 ```
 
-The API will be available at `http://127.0.0.1:8000`.
+The API will be available at `http://127.0.0.1:8001`.
 
 - `GET /health` — health check
 - `POST /predict` — body: `{"state": "...", "questions": {...}}`

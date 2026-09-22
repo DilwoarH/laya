@@ -3,17 +3,37 @@ from laya import Router
 
 app = Flask(__name__)
 
-# Loaded once at process startup so requests never pay the checkpoint-load cost.
-agent = Router()
-agent.preload(["typed-decisions"])
+agent = None
+
+
+def get_agent():
+    global agent
+
+    if agent is None:
+        agent = Router()
+        try:
+            agent.preload(["typed-decisions"])
+        except Exception as exc:
+            agent = None
+            raise RuntimeError(
+                "The typed-decisions model is not available. "
+                "Check your internet access or the local Hugging Face cache."
+            ) from exc
+
+    return agent
 
 
 @app.post("/predict")
 def predict():
+    try:
+        model = get_agent()
+    except Exception as exc:
+        return jsonify({"error": str(exc), "status": "model_unavailable"}), 503
+
     payload = request.get_json(force=True)
     state = payload["state"]
     questions = payload["questions"]
-    result = agent.predict(state, questions, model="typed-decisions")
+    result = model.predict(state, questions, model="typed-decisions")
     return jsonify(result)
 
 

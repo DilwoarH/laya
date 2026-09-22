@@ -51,7 +51,7 @@ headers = ("Question", "Answer", "Confidence")
 
 for state in states:
     response = requests.post(
-        "http://127.0.0.1:8000/predict",
+        "http://127.0.0.1:8001/predict",
         json={"state": state, "questions": questions},
     )
     response.raise_for_status()
