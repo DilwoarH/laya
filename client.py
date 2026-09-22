@@ -58,7 +58,7 @@ questions = {
         ]
     }
 }
-headers = ("Question", "Answer", "Confidence")
+headers = ("Question", "Answer", "Probability")
 
 for state in states:
     response = requests.post(
