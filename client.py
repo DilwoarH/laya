@@ -1,14 +1,12 @@
 import requests
-import json
+from tabulate import tabulate
 
-state = """
-Hello, I work for a housing software provider, and we are onboarding a local authority for their Housing Register and Choice Based Lettings systems.
-We are developing functionality for them to send bulk SMS communications to applicants directly from our system, and would like to integrate with the GOV.UK Notify API.
-Can you advise if I need to create an account to set up and test the API or is there anything else I need to provide?
-We also have other local authorities that may use this functionality in the future. Do we set up one account for our organisation and then separate API keys for each local authority, or do we need separate accounts?
-
-Thanks in advance, I look forward to hearing from you.
-"""
+states = [
+    "Do you provide an API for sending bulk SMS communications?",
+    "Our invoice shows a duplicate charge for last month's messages.",
+    "Messages are stuck in pending and are not being delivered.",
+    "Please configure a new service to send password-reset notifications.",
+]
 
 questions = {
     "type_of_request": {
@@ -49,13 +47,25 @@ questions = {
         ]
     }
 }
+headers = ("Question", "Answer", "Confidence")
 
-response = requests.post(
-    "http://127.0.0.1:8000/predict",
-    json={"state": state, "questions": questions},
-)
-response.raise_for_status()
-answers = response.json()["answers"]
+for state in states:
+    response = requests.post(
+        "http://127.0.0.1:8000/predict",
+        json={"state": state, "questions": questions},
+    )
+    response.raise_for_status()
+    answers = response.json()["answers"]
 
-for question, answer in answers.items():
-    print(f"{question} :", answer["choice"])
+    rows = [
+        (
+            questions[question]["instructions"],
+            answer["choice"],
+            f"{answer.get('confidence', 0) * 100:.1f}%",
+        )
+        for question, answer in answers.items()
+    ]
+
+    print("\nQuery from customer:", state, "\n")
+    print(tabulate(rows, headers=headers, tablefmt="simple"))
+    print("\n" + "="*100 + "\n")
